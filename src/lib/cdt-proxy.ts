@@ -224,4 +224,18 @@ export class ChromeDevToolsProxyServer {
   sendResumed() {
     this.api.Debugger.emitResumed();
   }
+
+  sendConsoleAPICalled(type: 'debug' | 'log' | 'error' | 'trace' | 'warning', message: string) {
+    this.api.Runtime.emitConsoleAPICalled({
+      type,
+      args: [
+        {
+          type: 'string',
+          value: message,
+        },
+      ],
+      executionContextId: 1,
+      timestamp: (new Date()).valueOf(),
+    });
+  }
 }
